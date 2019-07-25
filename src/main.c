@@ -4,30 +4,42 @@
 #include "task.h"
 
 
-void vTaskLed( void *pvParameters );
-const TickType_t xDelay250ms = pdMS_TO_TICKS( 1000 );
-Led_TypeDef Led1 = LED3;
+void vTaskLedPeriodico( void *pvParameters );
+void vTaskLedUsuario( void *pvParameters );
+
+const TickType_t xPeriodo = pdMS_TO_TICKS( 1000 );
+Led_TypeDef led_naranja = LED3;
+Led_TypeDef led_verde = LED4;
+Button_TypeDef sw_usuario = BUTTON_KEY;
 TaskHandle_t Task1;
 
 int main(void) {
 	BSP_LED_Init(LED3);
-	BSP_LED_Init(LED6);
+	BSP_LED_Init(LED4);
+	BSP_PB_Init(sw_usuario, BUTTON_MODE_GPIO);
 
-	xTaskCreate( vTaskLed, "Task 1", 100, (void* const)&Led1, 1, &Task1 );
+	xTaskCreate( vTaskLedPeriodico, "TaskLedPeriodico", 100, (void* const)&led_naranja, 1, &Task1 );
+	xTaskCreate( vTaskLedUsuario, "TaskLedUsuario", 100, (void* const)&led_verde, 1, &Task1 );
 	vTaskStartScheduler();
 
 	for(;;);
 }
 
-void vTaskLed( void *pvParameters) {
-
+void vTaskLedPeriodico( void *pvParameters) {
 	Led_TypeDef* Led = (Led_TypeDef*) pvParameters;
-
 	while(1) {
-		BSP_LED_On(*Led);
-		vTaskDelay( xDelay250ms );
+		BSP_LED_Toggle(*Led);
+		vTaskDelay(xPeriodo);
+	}
+}
 
-		BSP_LED_Off(*Led);
-		vTaskDelay( xDelay250ms );
+void vTaskLedUsuario( void *pvParameters) {
+	Led_TypeDef* Led = (Led_TypeDef*) pvParameters;
+	while(1) {
+		if (BSP_PB_GetState(sw_usuario) == 1) {
+			BSP_LED_On(*Led);
+		} else {
+			BSP_LED_Off(*Led);
+		}
 	}
 }
