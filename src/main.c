@@ -13,9 +13,9 @@ int main(void) {
 
 	BSP_Init();
 
-	xTaskCreate( vTaskLed, "Task 1", 100, NULL, 1, &Task );
+	//xTaskCreate( vTaskLed, "Task 1", 100, NULL, 1, &Task );
 
-	vTaskStartScheduler();
+	//vTaskStartScheduler();
 
 	for (;;);
 }

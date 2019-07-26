@@ -17,5 +17,6 @@ typedef enum{LED0_BOAR=4, LED1_BOAR=5, LED2_BOAR=6, LED3_BOAR=7, LED6_BOAR=8,LED
 void led_on(uint8_t led);
 void led_off(uint8_t led);
 void BSP_Init(void);
+void BSP_LED(void);
 
 #endif /* BSP_BSP_H_ */
