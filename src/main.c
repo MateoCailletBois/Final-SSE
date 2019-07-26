@@ -16,8 +16,10 @@ TaskHandle_t Task1;
 int main(void) {
 	BSP_LED_Init(LED3);
 	BSP_LED_Init(LED4);
+	BSP_LED_Init(LED0);
 	BSP_PB_Init(sw_usuario, BUTTON_MODE_GPIO);
 
+	BSP_LED_On(LED0);
 	xTaskCreate( vTaskLedPeriodico, "TaskLedPeriodico", 100, (void* const)&led_naranja, 1, &Task1 );
 	xTaskCreate( vTaskLedUsuario, "TaskLedUsuario", 100, (void* const)&led_verde, 1, &Task1 );
 	vTaskStartScheduler();

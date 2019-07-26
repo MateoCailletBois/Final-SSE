@@ -65,7 +65,8 @@ typedef enum
   LED4 = 0,
   LED3 = 1,
   LED5 = 2,
-  LED6 = 3
+  LED6 = 3,
+  LED0 = 4
 }Led_TypeDef;
 
 typedef enum 
@@ -96,12 +97,17 @@ typedef enum
 /** @defgroup __STM32F411E_DISCOVERY_HLOW_LEVEL_LED STM32F411E DISCOVERY HLOW LEVEL LED
   * @{
   */
-#define LEDn                                    4
+#define LEDn                                    5
 
 #define LED4_PIN                                GPIO_PIN_12
 #define LED4_GPIO_PORT                          GPIOD
 #define LED4_GPIO_CLK_ENABLE()                  __HAL_RCC_GPIOD_CLK_ENABLE()  
 #define LED4_GPIO_CLK_DISABLE()                 __HAL_RCC_GPIOD_CLK_DISABLE()  
+
+#define LED0_PIN                                GPIO_PIN_0
+#define LED0_GPIO_PORT                          GPIOD
+#define LED0_GPIO_CLK_ENABLE()                  __HAL_RCC_GPIOD_CLK_ENABLE()
+#define LED0_GPIO_CLK_DISABLE()                 __HAL_RCC_GPIOD_CLK_DISABLE()
 
   
 #define LED3_PIN                                GPIO_PIN_13
