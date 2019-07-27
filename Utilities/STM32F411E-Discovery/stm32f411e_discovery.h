@@ -66,18 +66,30 @@ typedef enum
   LED3 = 1,
   LED5 = 2,
   LED6 = 3,
-  LED0 = 4
+  LED0 = 4,
+  LED1 = 5,
+  LED2 = 6,
+  LED7 = 7,
+  LED8 = 8,
+  LED9 = 9,
+  LED10 = 10,
+  LED11 = 11
 }Led_TypeDef;
 
 typedef enum 
 {  
-  BUTTON_KEY = 0,
+  SW0 = 0,
+  SW1 = 1,
+  SW2 = 2,
+  SW3 = 3,
+  SW4 = 4
 }Button_TypeDef;
 
 typedef enum 
 {  
-  BUTTON_MODE_GPIO = 0,
-  BUTTON_MODE_EXTI = 1
+  BUTTON_MODE_GPIO_PULLDOWN = 0,
+  BUTTON_MODE_GPIO_PULLUP = 1,
+  BUTTON_MODE_EXTI = 2
 }ButtonMode_TypeDef;     
 /**
   * @}
@@ -97,46 +109,94 @@ typedef enum
 /** @defgroup __STM32F411E_DISCOVERY_HLOW_LEVEL_LED STM32F411E DISCOVERY HLOW LEVEL LED
   * @{
   */
-#define LEDn                                    5
+#define LEDn                                    12
 
 #define LED4_PIN                                GPIO_PIN_12
 #define LED4_GPIO_PORT                          GPIOD
 #define LED4_GPIO_CLK_ENABLE()                  __HAL_RCC_GPIOD_CLK_ENABLE()  
 #define LED4_GPIO_CLK_DISABLE()                 __HAL_RCC_GPIOD_CLK_DISABLE()  
-
-#define LED0_PIN                                GPIO_PIN_0
-#define LED0_GPIO_PORT                          GPIOD
-#define LED0_GPIO_CLK_ENABLE()                  __HAL_RCC_GPIOD_CLK_ENABLE()
-#define LED0_GPIO_CLK_DISABLE()                 __HAL_RCC_GPIOD_CLK_DISABLE()
-
   
 #define LED3_PIN                                GPIO_PIN_13
 #define LED3_GPIO_PORT                          GPIOD
 #define LED3_GPIO_CLK_ENABLE()                  __HAL_RCC_GPIOD_CLK_ENABLE()  
 #define LED3_GPIO_CLK_DISABLE()                 __HAL_RCC_GPIOD_CLK_DISABLE()  
 
-  
 #define LED5_PIN                                GPIO_PIN_14
 #define LED5_GPIO_PORT                          GPIOD
 #define LED5_GPIO_CLK_ENABLE()                  __HAL_RCC_GPIOD_CLK_ENABLE()  
 #define LED5_GPIO_CLK_DISABLE()                 __HAL_RCC_GPIOD_CLK_DISABLE()  
 
-  
 #define LED6_PIN                                GPIO_PIN_15
 #define LED6_GPIO_PORT                          GPIOD
 #define LED6_GPIO_CLK_ENABLE()                  __HAL_RCC_GPIOD_CLK_ENABLE()  
 #define LED6_GPIO_CLK_DISABLE()                 __HAL_RCC_GPIOD_CLK_DISABLE()  
 
+#define LED0_PIN                                GPIO_PIN_0
+#define LED0_GPIO_PORT                          GPIOD
+#define LED0_GPIO_CLK_ENABLE()                  __HAL_RCC_GPIOD_CLK_ENABLE()
+#define LED0_GPIO_CLK_DISABLE()                 __HAL_RCC_GPIOD_CLK_DISABLE()
+
+#define LED1_PIN                                GPIO_PIN_1
+#define LED1_GPIO_PORT                          GPIOD
+#define LED1_GPIO_CLK_ENABLE()                  __HAL_RCC_GPIOD_CLK_ENABLE()
+#define LED1_GPIO_CLK_DISABLE()                 __HAL_RCC_GPIOD_CLK_DISABLE()
+
+#define LED2_PIN                                GPIO_PIN_2
+#define LED2_GPIO_PORT                          GPIOD
+#define LED2_GPIO_CLK_ENABLE()                  __HAL_RCC_GPIOD_CLK_ENABLE()
+#define LED2_GPIO_CLK_DISABLE()                 __HAL_RCC_GPIOD_CLK_DISABLE()
+
+#define LED7_PIN                                GPIO_PIN_3
+#define LED7_GPIO_PORT                          GPIOD
+#define LED7_GPIO_CLK_ENABLE()                  __HAL_RCC_GPIOD_CLK_ENABLE()
+#define LED7_GPIO_CLK_DISABLE()                 __HAL_RCC_GPIOD_CLK_DISABLE()
+
+#define LED8_PIN                                GPIO_PIN_6
+#define LED8_GPIO_PORT                          GPIOD
+#define LED8_GPIO_CLK_ENABLE()                  __HAL_RCC_GPIOD_CLK_ENABLE()
+#define LED8_GPIO_CLK_DISABLE()                 __HAL_RCC_GPIOD_CLK_DISABLE()
+
+#define LED9_PIN                                GPIO_PIN_7
+#define LED9_GPIO_PORT                          GPIOD
+#define LED9_GPIO_CLK_ENABLE()                  __HAL_RCC_GPIOD_CLK_ENABLE()
+#define LED9_GPIO_CLK_DISABLE()                 __HAL_RCC_GPIOD_CLK_DISABLE()
+
+#define LED10_PIN                                GPIO_PIN_10
+#define LED10_GPIO_PORT                          GPIOD
+#define LED10_GPIO_CLK_ENABLE()                  __HAL_RCC_GPIOD_CLK_ENABLE()
+#define LED10_GPIO_CLK_DISABLE()                 __HAL_RCC_GPIOD_CLK_DISABLE()
+
+#define LED11_PIN                                GPIO_PIN_11
+#define LED11_GPIO_PORT                          GPIOD
+#define LED11_GPIO_CLK_ENABLE()                  __HAL_RCC_GPIOD_CLK_ENABLE()
+#define LED11_GPIO_CLK_DISABLE()                 __HAL_RCC_GPIOD_CLK_DISABLE()
+
 #define LEDx_GPIO_CLK_ENABLE(__INDEX__) do{if((__INDEX__) == 0) LED4_GPIO_CLK_ENABLE(); else \
                                            if((__INDEX__) == 1) LED3_GPIO_CLK_ENABLE(); else \
                                            if((__INDEX__) == 2) LED5_GPIO_CLK_ENABLE(); else \
-                                           if((__INDEX__) == 3) LED6_GPIO_CLK_ENABLE(); \
+                                           if((__INDEX__) == 3) LED6_GPIO_CLK_ENABLE(); else \
+                                           if((__INDEX__) == 4) LED0_GPIO_CLK_ENABLE(); else \
+                                           if((__INDEX__) == 5) LED1_GPIO_CLK_ENABLE(); else \
+                                           if((__INDEX__) == 6) LED2_GPIO_CLK_ENABLE(); else \
+                                           if((__INDEX__) == 7) LED7_GPIO_CLK_ENABLE(); else \
+                                           if((__INDEX__) == 8) LED8_GPIO_CLK_ENABLE(); else \
+                                           if((__INDEX__) == 9) LED9_GPIO_CLK_ENABLE(); else \
+                                           if((__INDEX__) == 10) LED10_GPIO_CLK_ENABLE(); else \
+                                           if((__INDEX__) == 11) LED11_GPIO_CLK_ENABLE(); \
                                            }while(0)
 
 #define LEDx_GPIO_CLK_DISABLE(__INDEX__) do{if((__INDEX__) == 0) LED4_GPIO_CLK_DISABLE(); else \
                                             if((__INDEX__) == 1) LED3_GPIO_CLK_DISABLE(); else \
                                             if((__INDEX__) == 2) LED5_GPIO_CLK_DISABLE(); else \
-                                            if((__INDEX__) == 3) LED6_GPIO_CLK_DISABLE(); \
+                                            if((__INDEX__) == 3) LED6_GPIO_CLK_DISABLE(); else \
+                                            if((__INDEX__) == 4) LED0_GPIO_CLK_DISABLE(); else \
+                                            if((__INDEX__) == 5) LED1_GPIO_CLK_DISABLE(); else \
+                                            if((__INDEX__) == 6) LED2_GPIO_CLK_DISABLE(); else \
+                                            if((__INDEX__) == 7) LED7_GPIO_CLK_DISABLE(); else \
+                                            if((__INDEX__) == 8) LED8_GPIO_CLK_DISABLE(); else \
+                                            if((__INDEX__) == 9) LED9_GPIO_CLK_DISABLEE(); else \
+                                            if((__INDEX__) == 10) LED10_GPIO_CLK_DISABLE(); else \
+                                            if((__INDEX__) == 11) LED11_GPIO_CLK_DISABLE(); \
                                             }while(0)
 /**
   * @}
@@ -145,20 +205,52 @@ typedef enum
 /** @defgroup __STM32F411E_DISCOVERY_HLOW_LEVEL_BUTTON STM32F411E DISCOVERY HLOW LEVEL BUTTON
   * @{
   */  
-#define BUTTONn                                 1  
+#define SWn                                 5
 
 /**
  * @brief Wakeup push-button
  */
-#define KEY_BUTTON_PIN                          GPIO_PIN_0
-#define KEY_BUTTON_GPIO_PORT                    GPIOA
-#define KEY_BUTTON_GPIO_CLK_ENABLE()            __HAL_RCC_GPIOA_CLK_ENABLE()
-#define KEY_BUTTON_GPIO_CLK_DISABLE()           __HAL_RCC_GPIOA_CLK_DISABLE()
-#define KEY_BUTTON_EXTI_IRQn                    EXTI0_IRQn
+#define SW0_PIN                          GPIO_PIN_0
+#define SW0_GPIO_PORT                    GPIOA
+#define SW0_GPIO_CLK_ENABLE()            __HAL_RCC_GPIOA_CLK_ENABLE()
+#define SW0_GPIO_CLK_DISABLE()           __HAL_RCC_GPIOA_CLK_DISABLE()
+#define SW0_EXTI_IRQn                    EXTI0_IRQn
 
-#define BUTTONx_GPIO_CLK_ENABLE(__INDEX__)     do{if((__INDEX__) == 0) KEY_BUTTON_GPIO_CLK_ENABLE(); \
+#define SW1_PIN                          GPIO_PIN_4
+#define SW1_GPIO_PORT                    GPIOE
+#define SW1_GPIO_CLK_ENABLE()            __HAL_RCC_GPIOE_CLK_ENABLE()
+#define SW1_GPIO_CLK_DISABLE()           __HAL_RCC_GPIOE_CLK_DISABLE()
+#define SW1_EXTI_IRQn                    EXTI0_IRQn
+
+#define SW2_PIN                          GPIO_PIN_5
+#define SW2_GPIO_PORT                    GPIOE
+#define SW2_GPIO_CLK_ENABLE()            __HAL_RCC_GPIOE_CLK_ENABLE()
+#define SW2_GPIO_CLK_DISABLE()           __HAL_RCC_GPIOE_CLK_DISABLE()
+#define SW2_EXTI_IRQn                    EXTI0_IRQn
+
+#define SW3_PIN                          GPIO_PIN_6
+#define SW3_GPIO_PORT                    GPIOE
+#define SW3_GPIO_CLK_ENABLE()            __HAL_RCC_GPIOE_CLK_ENABLE()
+#define SW3_GPIO_CLK_DISABLE()           __HAL_RCC_GPIOE_CLK_DISABLE()
+#define SW3_EXTI_IRQn                    EXTI0_IRQn
+
+#define SW4_PIN                          GPIO_PIN_2
+#define SW4_GPIO_PORT                    GPIOE
+#define SW4_GPIO_CLK_ENABLE()            __HAL_RCC_GPIOE_CLK_ENABLE()
+#define SW4_GPIO_CLK_DISABLE()           __HAL_RCC_GPIOE_CLK_DISABLE()
+#define SW4_EXTI_IRQn                    EXTI0_IRQn
+
+#define SWx_GPIO_CLK_ENABLE(__INDEX__)     do{if((__INDEX__) == 0) SW0_GPIO_CLK_ENABLE(); else \
+											  if((__INDEX__) == 1) SW1_GPIO_CLK_ENABLE(); else \
+											  if((__INDEX__) == 2) SW2_GPIO_CLK_ENABLE(); else \
+											  if((__INDEX__) == 3) SW3_GPIO_CLK_ENABLE(); else \
+											  if((__INDEX__) == 4) SW4_GPIO_CLK_ENABLE(); \
                                                  }while(0)
-#define BUTTONx_GPIO_CLK_DISABLE(__INDEX__)    do{if((__INDEX__) == 0) KEY_BUTTON_GPIO_CLK_DISABLE(); \
+#define SWx_GPIO_CLK_DISABLE(__INDEX__)    do{if((__INDEX__) == 0) SW0_GPIO_CLK_DISABLE(); else \
+										      if((__INDEX__) == 1) SW1_GPIO_CLK_DISABLE(); else \
+											  if((__INDEX__) == 2) SW2_GPIO_CLK_DISABLE(); else \
+											  if((__INDEX__) == 3) SW3_GPIO_CLK_DISABLE(); else \
+											  if((__INDEX__) == 4) SW4_GPIO_CLK_DISABLE(); \
                                                  }while(0)
 /**
   * @}

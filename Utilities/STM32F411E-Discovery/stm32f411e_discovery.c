@@ -91,17 +91,31 @@ GPIO_TypeDef* GPIO_PORT[LEDn] = {LED4_GPIO_PORT,
                                  LED3_GPIO_PORT, 
                                  LED5_GPIO_PORT,
                                  LED6_GPIO_PORT,
-								 LED0_GPIO_PORT};
+								 LED0_GPIO_PORT,
+								 LED1_GPIO_PORT,
+								 LED2_GPIO_PORT,
+								 LED7_GPIO_PORT,
+								 LED8_GPIO_PORT,
+								 LED9_GPIO_PORT,
+								 LED10_GPIO_PORT,
+								 LED11_GPIO_PORT,};
 
 const uint16_t GPIO_PIN[LEDn] = {LED4_PIN, 
                                  LED3_PIN, 
                                  LED5_PIN,
                                  LED6_PIN,
-								 LED0_PIN};
+								 LED0_PIN,
+								 LED1_PIN,
+								 LED2_PIN,
+								 LED7_PIN,
+								 LED8_PIN,
+								 LED9_PIN,
+								 LED10_PIN,
+								 LED11_PIN,};
 
-GPIO_TypeDef* BUTTON_PORT[BUTTONn] = {KEY_BUTTON_GPIO_PORT}; 
-const uint16_t BUTTON_PIN[BUTTONn] = {KEY_BUTTON_PIN};
-const uint8_t BUTTON_IRQn[BUTTONn] = {KEY_BUTTON_EXTI_IRQn};
+GPIO_TypeDef* BUTTON_PORT[SWn] = {SW0_GPIO_PORT, SW1_GPIO_PORT, SW2_GPIO_PORT, SW3_GPIO_PORT, SW4_GPIO_PORT};
+const uint16_t BUTTON_PIN[SWn] = {SW0_PIN, SW1_PIN, SW2_PIN, SW3_PIN, SW4_PIN};
+const uint8_t BUTTON_IRQn[SWn] = {SW0_EXTI_IRQn, SW1_EXTI_IRQn, SW2_EXTI_IRQn, SW3_EXTI_IRQn, SW4_EXTI_IRQn};
 
 uint32_t I2cxTimeout = I2Cx_TIMEOUT_MAX;    /*<! Value of Timeout when I2C communication fails */
 uint32_t SpixTimeout = SPIx_TIMEOUT_MAX;    /*<! Value of Timeout when SPI communication fails */
@@ -245,18 +259,28 @@ void BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef ButtonMode)
   GPIO_InitTypeDef GPIO_InitStruct;
   
   /* Enable the BUTTON Clock */
-  BUTTONx_GPIO_CLK_ENABLE(Button);
+  SWx_GPIO_CLK_ENABLE(Button);
   
-  if(ButtonMode == BUTTON_MODE_GPIO)
+  if(ButtonMode == BUTTON_MODE_GPIO_PULLDOWN)
   {
     /* Configure Button pin as input */
     GPIO_InitStruct.Pin = BUTTON_PIN[Button];
     GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
     GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FAST;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(BUTTON_PORT[Button], &GPIO_InitStruct);
   }
   
+  if(ButtonMode == BUTTON_MODE_GPIO_PULLUP)
+  {
+    /* Configure Button pin as input */
+    GPIO_InitStruct.Pin = BUTTON_PIN[Button];
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(BUTTON_PORT[Button], &GPIO_InitStruct);
+  }
+
   if(ButtonMode == BUTTON_MODE_EXTI)
   {
     /* Configure Button pin as input with External interrupt */
