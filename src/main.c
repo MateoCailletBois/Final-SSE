@@ -2,14 +2,15 @@
 #include "stm32f411e_discovery.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include <stdbool.h>
 
-void vTaskLedSetSuperiorBarrido( void *pvParameters );
-void vTaskLedSetInferiorBarrido( void *pvParameters );
+void vTaskIniciador(void *pvParameters);
+void vTaskLed( void *pvParameters );
 void vTaskSW( void *pvParameters );
 
-const TickType_t xPeriodo = pdMS_TO_TICKS( 150 );
+const TickType_t xPeriodo = pdMS_TO_TICKS( 1000 );
 
-Led_TypeDef leds_superiores [4] = {LED3, LED5, LED6, LED4}; // 3:N - 5:R - 6:A - 4:V
+Led_TypeDef leds_superiores [4] = {LED3, LED5, LED6, LED4}; // 3:N - 5:R - 6:R - 4:V
 Led_TypeDef leds_inferiores [8] = {LED0, LED1, LED2, LED7, LED8, LED9, LED10, LED11};
 Button_TypeDef sw [5] = {SW0, SW1, SW2, SW3, SW4};
 TaskHandle_t Task1;
@@ -32,34 +33,54 @@ int main(void) {
 		}
 	}
 
-
-	xTaskCreate( vTaskLedSetSuperiorBarrido, "TaskLedSetSuperiorBarrido", 100, NULL, 1, &Task1 );
-	xTaskCreate( vTaskLedSetInferiorBarrido, "TaskLedSetInferiorBarrido", 100, NULL, 1, &Task2 );
+	xTaskCreate( vTaskIniciador, "TaskIniciador", 100, NULL, 5, NULL);
 //	xTaskCreate( vTaskSW, "vTaskSW", 100, NULL, 1, &Task3 );
 	vTaskStartScheduler();
 
 	for(;;);
 }
 
-void vTaskLedSetSuperiorBarrido( void *pvParameters) {
+void vTaskIniciador(void *pvParameters) {
+	xTaskCreate( vTaskLed, "TaskLedVerde", 100, (void* const)&leds_superiores[3], 0, NULL);
+	vTaskDelay(xPeriodo);
+	xTaskCreate( vTaskLed, "TaskLedNaranja", 100, (void* const)&leds_superiores[0], 1, NULL);
+	vTaskDelay(xPeriodo);
+	xTaskCreate( vTaskLed, "TaskLedRojo", 100, (void* const)&leds_superiores[1], 2, NULL);
+	vTaskDelay(xPeriodo);
+	xTaskCreate( vTaskLed, "TaskLedAzul", 100, (void* const)&leds_superiores[2], 3, NULL);
+	vTaskDelay(xPeriodo);
+	vTaskDelete(NULL);
+}
+
+void vTaskLed( void *pvParameters) {
+	Led_TypeDef* led = (Led_TypeDef*) pvParameters;
 	uint16_t contador = 0;
 	while(1) {
-		if (contador < 4) {
-			BSP_LED_Toggle(leds_superiores[contador++]);
-			vTaskDelay(xPeriodo);
-		} else
-			contador = 0;
+		while (contador < 40) {
+			BSP_LED_Toggle(*led);
+			HAL_Delay(50);
+			contador++;
+		}
+		contador = 0;
+		vTaskDelay(xPeriodo * 8);
 	}
 }
 
-void vTaskLedSetInferiorBarrido( void *pvParameters) {
-	uint16_t contador = 0;
+void vApplicationIdleHook( void ) {
+	uint16_t i = 0;
+	bool ascender;
 	while(1) {
-		if (contador < 8) {
-			BSP_LED_Toggle(leds_inferiores[contador++]);
-			vTaskDelay(xPeriodo);
-		} else
-			contador = 0;
+		if (i == 0)
+			ascender = true;
+		else if (i == 7)
+			ascender = false;
+
+		BSP_LED_On(leds_inferiores[i]);
+		HAL_Delay(25);
+		BSP_LED_Off(leds_inferiores[i]);
+
+		if (ascender) i++;
+		else i--;
 	}
 }
 
