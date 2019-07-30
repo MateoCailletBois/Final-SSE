@@ -81,6 +81,9 @@ void vApplicationIdleHook( void ) {
 
 		if (ascender) i++;
 		else i--;
+
+		if (BSP_PB_GetState(sw[0]) == 1)
+			vTaskDelay(xPeriodo * 10);
 	}
 }
 
