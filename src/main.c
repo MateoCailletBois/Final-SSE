@@ -8,7 +8,8 @@
 void vTaskLedSetSuperior(void *pvParameters);
 void vTaskLedSetInferior(void *pvParameters);
 void vTaskLectorSW_Superior(void *pvParameters);
-void vTaskLectorSW_Inferior(void *pvParameters);
+void vTaskLectorSW_Inferior_IZQ(void *pvParameters);
+void vTaskLectorSW_Inferior_DER(void *pvParameters);
 
 const TickType_t xPeriodo = pdMS_TO_TICKS(100);
 
@@ -51,7 +52,8 @@ int main(void) {
 	xTaskCreate(vTaskLedSetSuperior, "TaskLedSetSuperior3", 100, (void* const)&leds_superiores[2], 1, NULL);
 	xTaskCreate(vTaskLedSetSuperior, "TaskLedSetSuperior4", 100, (void* const)&leds_superiores[3], 1, NULL);
 	xTaskCreate(vTaskLedSetInferior, "TaskLedSetInferior", 100, NULL, 2, NULL);
-	xTaskCreate(vTaskLectorSW_Inferior, "TaskLectorSW_inf", 100, NULL, 1, NULL);
+	xTaskCreate(vTaskLectorSW_Inferior_IZQ, "TaskLectorSW_inf_izq", 100, NULL, 1, NULL);
+	xTaskCreate(vTaskLectorSW_Inferior_DER, "TaskLectorSW_inf_der", 100, NULL, 1, NULL);
 	xTaskCreate(vTaskLectorSW_Superior, "TaskLectorSW_sup", 100, NULL, 1, NULL);
 	vTaskStartScheduler();
 
@@ -85,9 +87,8 @@ void vTaskLedSetSuperior(void *pvParameters) {
 	}
 }
 
-void vTaskLectorSW_Inferior(void *pvParameters) {
+void vTaskLectorSW_Inferior_IZQ(void *pvParameters) {
 	Data_t datoSW_Izquierdo = {0, eSW_Izquierdo};
-	Data_t datoSW_Derecho = {0, eSW_Derecho};
 	while(1) {
 		if (BSP_PB_GetState(sw[3]) == 0) {
 			xQueueSendToBack(xQueue, &datoSW_Izquierdo, 0);
@@ -96,6 +97,13 @@ void vTaskLectorSW_Inferior(void *pvParameters) {
 			else
 				datoSW_Izquierdo.usValor = 0;
 		}
+		vTaskDelay(xPeriodo);
+	}
+}
+
+void vTaskLectorSW_Inferior_DER(void *pvParameters) {
+	Data_t datoSW_Derecho = {0, eSW_Derecho};
+	while(1) {
 		if (BSP_PB_GetState(sw[4]) == 0) {
 			xQueueSendToBack(xQueue, &datoSW_Derecho, 0);
 			if (datoSW_Derecho.usValor < 3)
